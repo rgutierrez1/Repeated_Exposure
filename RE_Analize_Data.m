@@ -8,13 +8,28 @@ cd '/Users/rodrigo/MATLAB_Repository/Repeated_Exposure';
 %%
 
 T = readtable("waves_newtimes.csv");
+Results = readtable("EEG_Results.csv");
 
 %%
-
-idx = T.Sujeto == 1 & T.Sesi_n == 5;
-newTbl = T(idx,:);
+for k=1:147
+    ID = Results.Sujeto(k);
+    Session = Results.Sesi_n(k);
+    idx = T.Sujeto == ID & T.Sesi_n == Session;
+    newTbl = T(idx,:);
+    EEG_parameters = newTbl(:,4:end);
+    EEG_parameters_numb = EEG_parameters{:,:};
+    Mean_Parameters = mean(EEG_parameters_numb,1,'omitnan');
+    Std_Parameters = std(EEG_parameters_numb,1,'omitnan');
+    CV_Parameters = Std_Parameters./Mean_Parameters;
+    R = array2table(CV_Parameters);
+    Results(k,3:7) = R;
+end
+%%
+filename = "CV_Results.csv";
+writetable(Results,filename);
 
 %%
-EEG_parameters = newTbl(:,"alpha_max":end);
-
-Mean_Parameters = mean(newTbl,1);
+plot(Results.Sesi_n,Results.alphaRP,'o')
+ylabel('Alpha Relative Power', 'FontSize',14)
+xlabel('Session', 'FontSize',14)
+title('All Data', 'FontSize',16)
