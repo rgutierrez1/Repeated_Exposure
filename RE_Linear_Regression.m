@@ -37,7 +37,7 @@ idx_cluster = T.Cluster == 2;       % Select Cluster 1 (negative slope)
 T_c2 = T(idx_cluster,:);
 c2_alpha = fitlm(T_c2.Sesi_n,T_c2.alphaRP);
 
-%% Plot both clusters LM
+%% Plot both clusters in separate LM
 fig = figure();
 c1 = plot(c1_alpha,'Marker','.','DisplayName','Cluster 1');
 dataHandle = findobj(c1,'DisplayName','Data');
@@ -77,83 +77,20 @@ idx_No_CNS = T.CNS == 0; % To select and filter CNS patients
 % newTbl = T(idx_CNS,:); % For CNS patients
 newTbl = T(idx_No_CNS,:);
 
-%% LINEAR REGRESSION MODEL
-
-mdl_alpha = fitlm(T.Sesi_n,T.alphaRP);
-plot(mdl_alpha)
+%% LINEAR REGRESSION MODEL (Try specific variables in data input)
+Data_Input = T.alphaRP;
+mdl = fitlm(T.Sesi_n,Data_Input);
+plot(mdl)
 hold on
 ylabel('Alpha Relative Power', 'FontSize',14)
 xlabel('Sessions', 'FontSize',14)
 title('All Subjects', 'FontSize',16)
-p_value = mdl_alpha.Coefficients.pValue(2);
+p_value = mdl.Coefficients.pValue(2);
 p_value = ['p = ' num2str(p_value)];
 text(5,0.4,p_value,"FontSize",12)
 hold off
 
-%%
-mdl_delta = fitlm(newTbl.Sesi_n,newTbl.deltaRP);
-plot(mdl_delta)
-hold on
-ylabel('Delta Relative Power', 'FontSize',14)
-xlabel('Sessions', 'FontSize',14)
-title('CNS', 'FontSize',16)
-p_value = mdl_delta.Coefficients.pValue(2);
-p_value = ['p = ' num2str(p_value)];
-text(5,0.8,p_value,"FontSize",12)
-hold off
-%%
-mdl_theta = fitlm(newTbl.Sesi_n,newTbl.thetaRP);
-plot(mdl_theta)
-hold on
-ylabel('Theta Relative Power', 'FontSize',14)
-xlabel('Sessions', 'FontSize',14)
-title('CNS', 'FontSize',16)
-p_value = mdl_theta.Coefficients.pValue(2);
-p_value = ['p = ' num2str(p_value)];
-text(14,0.16,p_value,"FontSize",12)
-hold off
-
-%%
-mdl_beta = fitlm(newTbl.Sesi_n,newTbl.betaRP);
-plot(mdl_beta)
-hold on
-ylabel('Beta Relative Power', 'FontSize',14)
-xlabel('Sessions', 'FontSize',14)
-title('CNS', 'FontSize',16)
-p_value = mdl_beta.Coefficients.pValue(2);
-p_value = ['p = ' num2str(p_value)];
-text(5,0.2,p_value,"FontSize",12)
-hold off
-
-%%
-mdl_alphaPeak = fitlm(newTbl.Sesi_n,newTbl.alpha_max);
-plot(mdl_alphaPeak)
-hold on
-ylabel('Alpha Peak', 'FontSize',14)
-xlabel('Sessions', 'FontSize',14)
-title('CNS', 'FontSize',16)
-p_value = mdl_alphaPeak.Coefficients.pValue(2);
-p_value = ['p = ' num2str(p_value)];
-text(12,8.5,p_value,"FontSize",12)
-hold off
-
-%%
-mdl_age = fitlm(T.age,T.alphaRP);
-plot(mdl_age)
-hold on
-ylabel('Alpha Relative Power', 'FontSize',14)
-xlabel('Age', 'FontSize',14)
-title('All', 'FontSize',16)
-p_value = mdl_age.Coefficients.pValue(2);
-p_value = ['p = ' num2str(p_value)];
-text(5,0.35,p_value,"FontSize",12)
-hold off
-
-%%
-plot(T.Sesi_n,T.alphaRP,'o','color','r','MarkerSize',6,'MarkerFaceColor','r')
-xlabel('Sessions','FontSize',14)
-ylabel('Alpha Relative Power','FontSize',14)
-%%
+%% Linear Model for Alpha Relative Power
 mdl_alpha = fitlm(T.Sesi_n,T.alphaRP,'linear');
 c2 = plot(mdl_alpha,'Marker','.');
 hold on

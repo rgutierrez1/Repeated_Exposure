@@ -5,7 +5,7 @@ clear variables; clc;
 addpath(genpath('/Users/rodrigo/MATLAB_Repository/Repeated_Exposure'));
 cd '/Users/rodrigo/MATLAB_Repository/Repeated_Exposure';
 
-T = readtable("RE_Slopes.csv");
+T = readtable("Results_Slopes.csv");
 Slopes = T.Slope;
 %%
 
@@ -17,18 +17,12 @@ idx = cluster(gm,Slopes);
 cluster1 = (idx == 1); % |1| for cluster 1 membership
 cluster2 = (idx == 2); % |2| for cluster 2 membership
 
-
-%%
 select_row_c1 = T.Cluster1 == 1;
 select_row_c2 = T.Cluster1 == 1;
 
 T_Cluster1 = T(select_row_c1,:);
 T_Cluster2 = T(select_row_c2,:);
-
-
-
-%%
-
+%% PLOT RESULTS
 
     x = linspace(-0.018,0.005,500);
     y_1 = normpdf(x,gm.mu(1),50*gm.Sigma(:,:,1));
