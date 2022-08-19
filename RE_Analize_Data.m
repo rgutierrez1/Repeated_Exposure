@@ -8,7 +8,7 @@ cd '/Users/rodrigo/MATLAB_Repository/Repeated_Exposure';
 %%
 
 T = readtable("waves_newtimes.csv");
-Results = readtable("EEG_Results.csv");
+Results = readtable("EEG_Results.csv"); % Give the ID and Sessions for the loop
 
 %%
 for k=1:147
