@@ -6,10 +6,11 @@ clear variables; clc;
 addpath(genpath('/Users/rodrigo/MATLAB_Repository/Repeated_Exposure'));
 cd '/Users/rodrigo/MATLAB_Repository/Repeated_Exposure';
 
-T = readtable("EEG_Results.csv");
+T = readtable("Results_EEG.csv");
 Subjects = [1,2,3,6,7,9,11,12,13,15,16,17,18,19,20,21,22,24]; % Subj 5 has only 2 sessions
 %% Plot individual fit models
-grayColor = [.7 .7 .7];
+% grayColor = [.7 .7 .7];
+ColorSet = varycolor(length(Subjects));
 
 for k=1:length(Subjects)
     idx = Subjects(k);
@@ -17,13 +18,13 @@ for k=1:length(Subjects)
     individual_Tbl = T(idx_subject,:);
     mdl_alpha = fitlm(individual_Tbl.Sesi_n,individual_Tbl.alphaRP);
     txt = ['Subject ', num2str(idx)];
-    plot(individual_Tbl.Sesi_n,mdl_alpha.Fitted,'Color',grayColor,'LineWidth',2,'DisplayName',txt)
+    plot(individual_Tbl.Sesi_n,mdl_alpha.Fitted,'Color',ColorSet(k,:),'LineWidth',2,'DisplayName',txt)
     xlabel ('Sessions', 'FontSize',13,'FontName','Arial')
     ylabel ('Alpha Relative Power','FontSize',13,'FontName','Arial')
     xlim tight
     hold on
     if k==length(Subjects)
-%         legend show
+        legend show
         title('Individual linear model fit ','FontSize',14)
     end
  end
@@ -39,7 +40,7 @@ c2_alpha = fitlm(T_c2.Sesi_n,T_c2.alphaRP);
 
 %% Plot both clusters in separate LM
 fig = figure();
-c1 = plot(c1_alpha,'Marker','.','DisplayName','Cluster 1');
+c1 = plot(c2_alpha,'Marker','.','DisplayName','Cluster 2');
 dataHandle = findobj(c1,'DisplayName','Data');
 fitHandle = findobj(c1,'DisplayName','Fit');
 cbHandles = findobj(c1,'DisplayName','Confidence bounds');
@@ -50,7 +51,7 @@ fitHandle.LineWidth = 2;
 set(cbHandles, 'Color', [0 0.4470 0.7410], 'LineWidth', 2)
 
 hold on
-c2 = plot(c2_alpha,'Marker','.','DisplayName','Cluster 2');
+c2 = plot(c1_alpha,'Marker','.','DisplayName','Cluster 1');
 dataHandle = findobj(c2,'DisplayName','Data');
 fitHandle = findobj(c2,'DisplayName','Fit');
 cbHandles = findobj(c2,'DisplayName','Confidence bounds');

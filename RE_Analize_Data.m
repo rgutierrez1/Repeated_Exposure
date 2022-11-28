@@ -8,7 +8,7 @@ cd '/Users/rodrigo/MATLAB_Repository/Repeated_Exposure';
 %%
 
 T = readtable("waves_newtimes.csv");
-Results = readtable("EEG_Results.csv"); % Give the ID and Sessions for the loop
+Results = readtable("Results_EEG.csv"); % Give the ID and Sessions for the loop
 
 %%
 for k=1:147
@@ -33,3 +33,11 @@ plot(Results.Sesi_n,Results.alphaRP,'o')
 ylabel('Alpha Relative Power', 'FontSize',14)
 xlabel('Session', 'FontSize',14)
 title('All Data', 'FontSize',16)
+
+%%
+idx = Results.Cluster == 1;
+Cluster_1 = Results(idx,:);
+
+%%
+idx = Results.Cluster == 2;
+Cluster_2 = Results(idx,:);
