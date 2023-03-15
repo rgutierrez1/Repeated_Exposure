@@ -1,12 +1,12 @@
 %% RE_Cluster_Spectrograms
 % MT average spectrogram for subject 22
 clear variables; clc;
-addpath(genpath('/Users/rodrigo/MATLAB_Repository/Repeated_Exposure'));
+addpath(genpath('/Users/rodrigo/Codes/Repeated_Exposure'));
 addpath(genpath('/Users/rodrigo/Documents/MATLAB/Toolbox_&_Functions/Chronux_2_11'));
-cd '/Users/rodrigo/MATLAB_Repository/Repeated_Exposure';
+cd '/Users/rodrigo/Codes/Repeated_Exposure';
 
-% Cluster_1 = [1,3,6,7,12,15,19,20,21,24];
-Cluster_2 = [2,9,11,13,16,17,18,22];
+Cluster_1 = [3,6,7,12,15,19,20,21,24];
+% Cluster_2 = [2,9,11,13,16,17,18,22];
 %%
 params.tapers = [3 5];
 params.pad = 0;
@@ -16,8 +16,8 @@ params.err = [1 0.05];
 params.trialave = 0;
 win = [2 1]; 
 %%
-for k=1:length(Cluster_2)
-    xx = Cluster_2(k);
+for k=1:length(Cluster_1)
+    xx = Cluster_1(k);
     filename = ['P' num2str(xx) '_time_stamp.csv'];
     T = readtable(filename);
     Sall = zeros(1,112);
@@ -30,7 +30,7 @@ for k=1:length(Cluster_2)
         [S,t,f]= mtspecgramc(data,win,params);
         Sall = vertcat(Sall, S);
     end
-    subplot(8,1,k)
+    subplot(10,1,k)
     Sall = Sall(2:end,:);
     a = size(Sall,1);
     b = max(T.session);
@@ -40,7 +40,7 @@ for k=1:length(Cluster_2)
     axis xy
     caxis([-20 30])
     % caxis('auto')
-    ylim([1 40])
+    ylim([1 30])
     shading('interp')
     colormap ('jet')
     h1=colorbar;

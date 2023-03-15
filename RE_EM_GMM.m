@@ -2,8 +2,8 @@
 % We will use a Cluster Gaussian Mixture Data using Hard Clustering
 % Author: Rodrigo Gutierrez, MD, PhD
 clear variables; clc;
-addpath(genpath('/Users/rodrigo/MATLAB_Repository/Repeated_Exposure'));
-cd '/Users/rodrigo/MATLAB_Repository/Repeated_Exposure';
+addpath(genpath('/Users/rodrigo/Codes/Repeated_Exposure'));
+cd '/Users/rodrigo/Codes/Repeated_Exposure';
 
 T = readtable("Results_Slopes.csv");
 Slopes = T.Slope;
@@ -16,7 +16,7 @@ gm = fitgmdist(Slopes,2,'Options',options)
 idx = cluster(gm,Slopes);
 cluster1 = (idx == 1); % |1| for cluster 1 membership
 cluster2 = (idx == 2); % |2| for cluster 2 membership
-
+%%
 select_row_c1 = T.Cluster == 1;
 select_row_c2 = T.Cluster == 2;
 
@@ -41,7 +41,7 @@ T_Cluster2 = T(select_row_c2,:);
     legend([p1 p2],{'Cluster 1';'Cluster 2'},'FontSize',12)
     xlabel('Slopes','FontSize',13,'FontName','Arial')
     ylabel('Density','FontSize',13,'FontName','Arial')
-    ylim ([0.001 0.25])
+    ylim ([0.001 0.50])
     title('log-likelihood predicted by a Gaussian Mixture Model','FontSize',14)
 
 

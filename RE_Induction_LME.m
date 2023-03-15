@@ -4,8 +4,8 @@
 % effect (CNS, Subject, Cluster)
 % Author: Rodrigo Gutierrez, MD, PhD
 clear variables; clc;
-addpath(genpath('/Users/rodrigo/MATLAB_Repository/Repeated_Exposure'));
-cd '/Users/rodrigo/MATLAB_Repository/Repeated_Exposure';
+addpath(genpath('/Users/rodrigo/Codes/Repeated_Exposure'));
+cd '/Users/rodrigo/Codes/Repeated_Exposure';
 
 T = readtable("Results_Induction_Time.csv");      % CV for each band relative power
 
@@ -23,8 +23,8 @@ my_table = table('Size',[0,size(variable_names_types,1)],...
 	'VariableTypes', variable_names_types(:,2));
 
 %%
-Subjects = [1,3,5,6,9,11,12,13,15,16,17,18,19,20,21,22,24];
-Paper_ID = [1,3,4,5,7,8,9,10,11,12,13,14,15,16,17,18,19];
+Subjects = [3,5,6,9,11,12,13,15,16,17,18,19,20,21,22,24];
+Paper_ID = [2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18];
 ColorSet = varycolor(length(Subjects));
 
 
@@ -73,6 +73,7 @@ formula_2 = 'InductionTime~1+Session+(1|Subject)+(Session|Anesthetist)';
 formula_3 = 'InductionTime~1+Session+(1|Subject)';
 formula_4 = 'InductionTime~1+Session+(1|Subject)+(Session|CNS)';
 lme_1 = fitlme(T,formula_1)
+lme_1.Rsquared
 % lme_2 = fitlme(T,formula_2);
 % lme_3 = fitlme(T,formula_3);
 % lme_4 = fitlme(T,formula_4);

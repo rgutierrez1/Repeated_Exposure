@@ -49,7 +49,8 @@ hold on
 axis xy
 caxis([-20 30])
 % caxis('auto')
-ylim([1 40])
+ylim([1 30])
+xline([3.5,6,9,12,14.5,17,19.5,22.5,25])
 shading('interp')
 colormap ('jet')
 h1=colorbar;
@@ -58,7 +59,7 @@ lim1 = h1.Limits;
 % title('ID64 FP2','FontSize',14,'FontWeight','bold')
 xlabel('Time (sessions)','FontSize',12,'FontWeight','bold')
 ylabel('Frequency (Hz)','FontSize',12,'FontWeight','bold')
-title('ID 9','FontSize',14,'FontWeight','bold')
+title('ID 6','FontSize',14,'FontWeight','bold')
 % set(get(h1,'title'),'string','dB','FontSize',14,'FontWeight','bold');
 % set(gca,'FontSize',12)
 hold off
@@ -70,13 +71,14 @@ pcolor(t, f, 10 * log10(S_24'))
 hold on
 axis xy
 caxis([-20 30])
-ylim([1 40])
+ylim([1 30])
+xline([3.7,6.7,9.2,12.3,14.8,17.5,20.3,23,25.8,28.5,31.4])
 shading('interp')
 colormap ('jet')
 h1=colorbar;
 h1.Label.String = 'dB'; h1.Label.FontSize = 14; h1.Label.FontWeight = 'bold';
 lim1 = h1.Limits;
-title('ID 24','FontSize',14,'FontWeight','bold')
+title('ID 18','FontSize',14,'FontWeight','bold')
 xlabel('Time (sessions)','FontSize',12,'FontWeight','bold')
 ylabel('Frequency (Hz)','FontSize',12,'FontWeight','bold')
 hold off

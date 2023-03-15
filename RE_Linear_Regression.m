@@ -3,11 +3,11 @@
 % Author: Rodrigo Gutierrez, MD, PhD
 
 clear variables; clc;
-addpath(genpath('/Users/rodrigo/MATLAB_Repository/Repeated_Exposure'));
-cd '/Users/rodrigo/MATLAB_Repository/Repeated_Exposure';
+addpath(genpath('/Users/rodrigo/Codes/Repeated_Exposure'));
+cd '/Users/rodrigo/Codes/Repeated_Exposure';
 
 T = readtable("Results_EEG.csv");
-Subjects = [1,2,3,6,7,9,11,12,13,15,16,17,18,19,20,21,22,24]; % Subj 5 has only 2 sessions
+Subjects = [2,3,6,7,9,11,12,13,15,16,17,18,19,20,21,22,24]; % Subj 5 has only 2 sessions
 %% Plot individual fit models
 % grayColor = [.7 .7 .7];
 ColorSet = varycolor(length(Subjects));
@@ -40,7 +40,7 @@ c2_alpha = fitlm(T_c2.Sesi_n,T_c2.alphaRP);
 
 %% Plot both clusters in separate LM
 fig = figure();
-c1 = plot(c2_alpha,'Marker','.','DisplayName','Cluster 2');
+c1 = plot(c2_alpha,'Marker','.', 'MarkerSize',10,'DisplayName','Cluster 2');
 dataHandle = findobj(c1,'DisplayName','Data');
 fitHandle = findobj(c1,'DisplayName','Fit');
 cbHandles = findobj(c1,'DisplayName','Confidence bounds');
@@ -51,7 +51,7 @@ fitHandle.LineWidth = 2;
 set(cbHandles, 'Color', [0 0.4470 0.7410], 'LineWidth', 2)
 
 hold on
-c2 = plot(c1_alpha,'Marker','.','DisplayName','Cluster 1');
+c2 = plot(c1_alpha,'Marker','.','MarkerSize',10,'DisplayName','Cluster 1');
 dataHandle = findobj(c2,'DisplayName','Data');
 fitHandle = findobj(c2,'DisplayName','Fit');
 cbHandles = findobj(c2,'DisplayName','Confidence bounds');
