@@ -8,9 +8,9 @@ clear variables; clc;
 addpath(genpath('/Users/rodrigo/Codes/Repeated_Exposure'));
 cd '/Users/rodrigo/Codes/Repeated_Exposure';
 
-T = readtable("Results_SEF.csv");       % PAM results
+%T = readtable("Results_SEF.csv");       % SEF results
 %T = readtable("Results_PAM.csv");       % PAM results
-%T = readtable("Results_EEG.csv");       % Band Relative Power Data
+T = readtable("Results_EEG.csv");       % Band Relative Power Data
 %T = readtable("Results_CV.csv");      % CV for each band relative power
 %% Fit a linear mixed-effect model for EEG features (MODEL #1)
 
@@ -32,7 +32,13 @@ lme_beta.Rsquared
 
 % formula = 'alpha_max~Sesi_n+(Sesi_n|Sujeto)+(1|CNS)';
 % lme_alpha
-%%  Fit a linear mixed-effect model for EEG features (MODEL #2)
+
+%% Fit a linear mixed-effect model for EEG features (MODEL #2)
+% Now we include et sevo information as a covariate (a second fixed effect)
+formula_alpha = 'alphaRP~Sesi_n+etSevo+(1+Sesi_n|Sujeto)+(1|CNS)';
+lme_alpha = fitlme(T,formula_alpha)
+lme_alpha.Rsquared
+%%  Fit a linear mixed-effect model for EEG features (MODEL #3)
 % Now we include cluster information
 formula_alpha_2 = 'alphaRP~Sesi_n+(1+Sesi_n|Sujeto)+(1|CNS)+(1|Cluster)';
 lme_alpha_2 = fitlme(T,formula_alpha_2)
@@ -75,6 +81,6 @@ Phi_LME = fitlme(T,formula_Phimod)
 Phi_LME.Rsquared
 
 %% LME for SEF results
-formula_SEF = 'sef~Sesi_n+(1+Sesi_n|Sujeto)+(1|CNS)';
+formula_SEF = 'sef~Sesi_n+(1+Sesi_n|Sujeto)+(1|CNS)+(1+Sesi_n|Cluster)';
 sef_LME = fitlme(T,formula_SEF)
 sef_LME.Rsquared
