@@ -8,9 +8,10 @@ clear variables; clc;
 addpath(genpath('/Users/rodrigo/Codes/Repeated_Exposure'));
 cd '/Users/rodrigo/Codes/Repeated_Exposure';
 
-T = readtable("Results_PAM.csv");       % PAM results
+T = readtable("Results_SEF.csv");       % PAM results
+%T = readtable("Results_PAM.csv");       % PAM results
 %T = readtable("Results_EEG.csv");       % Band Relative Power Data
-% T = readtable("Results_CV.csv");      % CV for each band relative power
+%T = readtable("Results_CV.csv");      % CV for each band relative power
 %% Fit a linear mixed-effect model for EEG features (MODEL #1)
 
 formula_alpha = 'alphaRP~Sesi_n+(1+Sesi_n|Sujeto)+(1|CNS)';
@@ -72,3 +73,8 @@ Kmod_LME.Rsquared
 formula_Phimod = 'Phi_mod~Sesi_n+(1+Sesi_n|Sujeto)+(1|CNS)';
 Phi_LME = fitlme(T,formula_Phimod)
 Phi_LME.Rsquared
+
+%% LME for SEF results
+formula_SEF = 'sef~Sesi_n+(1+Sesi_n|Sujeto)+(1|CNS)';
+sef_LME = fitlme(T,formula_SEF)
+sef_LME.Rsquared
