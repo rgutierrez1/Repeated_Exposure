@@ -29,7 +29,7 @@ Kappa_tot = [10,10]; slowID = 1; fastID = 2;
 
 %% Obtain Kmod and Phimod by session for ALL SUBJECT
 
-for k=120
+for k=10
     load (['P' num2str(T.Sujeto(k)) '.'  num2str(T.record(k)) '.mat'])
     disp(['Analyzing Subject ' num2str(T.Sujeto(k)) ' Session ' num2str(T.record(k))])
     time_init = T.time_init(k)*60*Fs;
@@ -39,8 +39,9 @@ for k=120
     dur = length(data);
     dur_sec = dur/Fs;
     
-    N = 2*floor(Fs);                            % Window length
-    Nwind=floor(dur_sec/2);                     % Window Number
+    window_length = 2;                          % In seconds
+    N = window_length*floor(Fs);                            % Window length
+    Nwind=floor(dur_sec/window_length);                     % Window Number
     tt= (1:Nwind*N);
     
     StaPointId = ((1:Nwind)-1)*N +1;
@@ -67,7 +68,8 @@ for k=120
     %
     tVect = processed_ssp_pac.tVect;
     pbins = processed_ssp_pac.pbins;
-    figure
+    %figure
+    subplot(5,1,5)
     hold on
     cmin = 0; cmax = 2/(2*pi);
     % cmin = 0.12; cmax = 0.2;

@@ -7,7 +7,7 @@ cd '/Users/rodrigo/Codes/Repeated_Exposure';
 T = readtable('Results_PAM.csv');
 
 %%
-k=120;
+k=10;
 load (['P' num2str(T.Sujeto(k)) '.'  num2str(T.record(k)) '.mat'])
 
 
@@ -22,7 +22,7 @@ Fs = 100;
 %% Define non overlapping windows
 
 Window_length = [120,30,6,3];
-for i = 4
+for i = 1:4
     wind_len_sec = Window_length(i);
     wind_len = wind_len_sec*Fs;
     
@@ -87,7 +87,7 @@ for i = 4
     cmin = 1/(2*pi)-cramge;
     cmax = 1/(2*pi)+cramge;
     
-    subplot(4,1,i)
+    subplot(5,1,i)
     imagesc((60*tvecmin) ,pbins2,pac');
     axis 'xy'
     col = redbluemap; colormap(col);
