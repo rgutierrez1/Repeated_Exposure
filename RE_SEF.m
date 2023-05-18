@@ -3,7 +3,7 @@
 
 clear variables; clc;
 addpath(genpath('/Users/rodrigo/Codes/Repeated_Exposure'));
-addpath(genpath('/Users/rodrigo/Documents/MATLAB/Toolbox_&_Functions/Chronux_2_11'));
+addpath(genpath('/Users/rodrigo/Codes/Chronux_2_11'));
 
 cd '/Users/rodrigo/Codes/Repeated_Exposure';
 
@@ -22,7 +22,9 @@ segave = 1;                   % average over segments for 1, dont average for 0
 fq_resolution = 2*params.tapers(1)/win;     % calculate frequency resolution
 
 %%
-for k=1:133
+sz = size(T,1);
+
+for k=1:sz
     load (['P' num2str(T.Sujeto(k)) '.'  num2str(T.record(k)) '.mat'])
     disp(['Analyzing Subject ' num2str(T.Sujeto(k)) ' Session ' num2str(T.record(k))])
     params.Fs = Fs;
@@ -33,3 +35,7 @@ for k=1:133
     SEF_95 = SEF95(S,f);
     T.sef(k) = SEF_95;
 end
+
+%%
+filename = 'SEF_results.csv';
+writetable(T,filename);
