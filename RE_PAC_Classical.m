@@ -2,6 +2,8 @@
 close all; clear all; clc
 
 addpath(genpath('/Users/rodrigo/Documents/MATLAB/Toolbox_&_Functions/CFC_PAC'))
+addpath(genpath('/Users/rodrigo/Codes/Repeated_Exposure'))
+addpath(genpath('/Users/rodrigo/Codes/SS_PAM'))
 cd '/Users/rodrigo/Codes/Repeated_Exposure';
 
 T = readtable('Results_PAM.csv');
@@ -21,7 +23,9 @@ y_t = resample(data,P,Q);
 Fs = 100;
 %% Define non overlapping windows
 
-Window_length = [120,30,6,3];
+Window_length = [120,30,6,2];
+
+
 for i = 1:4
     wind_len_sec = Window_length(i);
     wind_len = wind_len_sec*Fs;
@@ -52,20 +56,26 @@ for i = 1:4
     pac = zeros(Nwind,Npb-1);
     
     % Standard PAC
+
+    [slow_tmp, tail_slow] = quickbandpass(y_t, Fs, slowfreq,filter_order);
+    [fast_tmp, tail_fast] = quickbandpass(y_t, Fs, fastfreq,filter_order); 
     
     for tt = 1:Nwind
         disp([' Windows : ' , num2str(tt), '/' ,num2str(Nwind)   ])
                 
-        sig_cur = detrend(y_t(1,startPointID(tt):endPointID(tt)));
-        [slow_tmp, tail_slow] = quickbandpass(sig_cur, Fs, slowfreq,filter_order);
-        [fast_tmp, tail_fast] = quickbandpass(sig_cur, Fs, fastfreq,filter_order);
+%         sig_cur = detrend(y_t(1,startPointID(tt):endPointID(tt)));
+%         [slow_tmp, tail_slow] = quickbandpass(sig_cur, Fs, slowfreq,filter_order);
+%         [fast_tmp, tail_fast] = quickbandpass(sig_cur, Fs, fastfreq,filter_order);
         
-        x_slow(1,startPointID(tt):endPointID(tt))=slow_tmp;
-        x_fast(1,startPointID(tt):endPointID(tt))=fast_tmp;
-        y_obs(1,startPointID(tt):endPointID(tt))=sig_cur;
+%         x_slow(1,startPointID(tt):endPointID(tt))=slow_tmp;
+%         x_fast(1,startPointID(tt):endPointID(tt))=fast_tmp;
+%         y_obs(1,startPointID(tt):endPointID(tt))=sig_cur;
         
-        x_fast_hilb = hilbert(fast_tmp(1:end-tail_fast));
-        x_slow_hilb = hilbert(slow_tmp(1:end-tail_slow));
+%         x_fast_hilb = hilbert(fast_tmp(1:end-tail_fast));
+%         x_slow_hilb = hilbert(slow_tmp(1:end-tail_slow));
+        x_fast_hilb = hilbert(fast_tmp(1,startPointID(tt):endPointID(tt)));
+        x_slow_hilb = hilbert(slow_tmp(1,startPointID(tt):endPointID(tt)));
+        
         amp   = abs(x_fast_hilb);
         phase = angle(x_slow_hilb);
         
@@ -77,8 +87,8 @@ for i = 1:4
     
         MI_KL(tt,1)=MI_KL_tmp;
         
-        phase_slow (startPointID(tt):endPointId_notail(tt)) =phase;
-        ampli_fast (startPointID(tt):endPointId_notail(tt)) = amp;
+        phase_slow (startPointID(tt):endPointID(tt)) = phase;
+        ampli_fast (startPointID(tt):endPointID(tt)) = amp;
         
     end
      
